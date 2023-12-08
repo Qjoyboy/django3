@@ -1,0 +1,65 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "test",
+      "desc": "test",
+      "image": "test",
+      "category": "test",
+      "price": 133,
+      "create_date": null,
+      "last_change": null
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Сладости",
+      "desc": "сладости",
+      "image": "test",
+      "category": "еда",
+      "price": 12,
+      "create_date": null,
+      "last_change": null
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Курица",
+      "desc": "убитая курица",
+      "image": "test",
+      "category": "test",
+      "price": 320,
+      "create_date": null,
+      "last_change": null
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "напитки",
+      "desc": "вода и т.д."
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "еда",
+      "desc": "кушац"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Мяса",
+      "desc": "курица, говядина, баранина"
+    }
+  }
+]
