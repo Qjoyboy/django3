@@ -5,7 +5,7 @@ NULLABLE = {'blank': True, 'null': True}
 class Product(models.Model):
     name = models.CharField(max_length=90, verbose_name='Наименование', default='test')
     desc = models.CharField(max_length=90, verbose_name='Описание', default='test')
-    image = models.ImageField(upload_to='images/', verbose_name='Превью', default='test', **NULLABLE)
+    image = models.ImageField(upload_to='media/', verbose_name='Превью', default='test', **NULLABLE)
     category = models.CharField(max_length=50, verbose_name='категория', default='test')
     price = models.IntegerField(verbose_name='Цена за штуку', default='test')
     create_date = models.DateField(**NULLABLE)
