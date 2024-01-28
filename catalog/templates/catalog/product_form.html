@@ -1,19 +1,31 @@
 {% extends 'catalog/dop.html' %}
 
 {% block content %}
-    <div class="col-12">
+<div class="col-12">
+    <form method="post">
         <div class="row">
             <div class="col-6">
                 <div class="card">
                     <div class="card-body">
-                        <form method="post">
-                            {% csrf_token %}
+
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success">Создать</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        {{ formset.managment_form }}
+                        {% for form in formset.forms %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-success">Создать</button>
-                        </form>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
+</div>
 {% endblock %}
