@@ -13,7 +13,6 @@ def dop(request):
 # --------------------------------------------
 '''CBV для продукта'''
 
-
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
@@ -22,9 +21,10 @@ class ProductCreateView(CreateView):
 
 class ProductListView(ListView):
     model = Product
+
     def get_queryset(self):
         active_version = Version.objects.filter(is_active=True)
-        active_prods = Product.objects.filter(version__in =active_version).distinct()
+        active_prods = Product.objects.filter(version__in = active_version).distinct()
         return active_prods
 
 class ProductDetailView(DetailView):
@@ -40,7 +40,7 @@ class ProductUpdateView(UpdateView):
         context_data = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
         if self.request.method == 'POST':
-            context_data['formset']= VersionFormset(self.request.POST, instance=self.object)
+            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
         else:
             context_data['formset'] = VersionFormset(instance=self.object)
         return context_data
@@ -51,7 +51,6 @@ class ProductUpdateView(UpdateView):
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
-
         return super().form_valid(form)
 
 

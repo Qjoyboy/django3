@@ -18,9 +18,10 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-body">
-                        {{ formset.managment_form }}
+                        {{ formset.management_form }}
                         {% for form in formset.forms %}
                             {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">Создать</button>
                         {% endfor %}
                     </div>
                 </div>

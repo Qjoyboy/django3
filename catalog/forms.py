@@ -9,7 +9,6 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ('__all__')
 
-
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')
         closed_names = 'казино,криптовалюта,крипта,биржа,дешево,бесплатно,обман,полиция,радар'
