@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -5,6 +6,7 @@ from django.utils.text import slugify
 NULLABLE = {'blank': True, 'null': True}
 
 class Product(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Владелец')
     name = models.CharField(max_length=90, verbose_name='Наименование', default='test')
     desc = models.CharField(max_length=90, verbose_name='Описание', default='test')
     image = models.ImageField(upload_to='media/', verbose_name='Превью', default='test', **NULLABLE)
@@ -38,8 +40,8 @@ class Category(models.Model):
 
 class Version(models.Model):
     prod = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
-    vers_num = models.IntegerField(verbose_name='номер версии')
-    vers_name = models.CharField(max_length=100, verbose_name='название версии')
+    vers_num = models.IntegerField(verbose_name='номер версии',default=1)
+    vers_name = models.CharField(max_length=100, verbose_name='название версии',default='test')
     is_active = models.BooleanField(verbose_name='актив версии', default=True)
 
     def __str__(self):

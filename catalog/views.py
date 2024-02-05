@@ -18,14 +18,19 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home')
 
+    def form_valid(self, form):
+        self.object =form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
 class ProductListView(ListView):
     model = Product
 
-    def get_queryset(self):
-        active_version = Version.objects.filter(is_active=True)
-        active_prods = Product.objects.filter(version__in = active_version).distinct()
-        return active_prods
+    # def get_queryset(self):
+    #     active_version = Version.objects.filter(is_active=True)
+    #     active_prods = Product.objects.filter(version__in = active_version).distinct()
+    #     return active_prods
 
 class ProductDetailView(DetailView):
     model = Product
