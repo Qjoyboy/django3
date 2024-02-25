@@ -1,8 +1,9 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
+from django.views.generic import TemplateView
 
 from users.apps import UsersConfig
-from users.views import RegisterView, ProfileView, reset_user_password
+from users.views import RegisterView, ProfileView, reset_user_password, EmailConfirmationSentView, UserConfirmEmail
 
 app_name = UsersConfig.name
 
@@ -12,6 +13,9 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('reset/', reset_user_password, name='reset'),
-    #path('reset_email/', PassResetView.as_view(), name='reset_email'),
-    #path('reset_confirm/<str:uidb64>/<str:token>', PassResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='reset_confirm')
+
+    path('confirmation/', TemplateView.as_view(template_name='users/email_confirmation.html'), name='confirmation'),
+    path('verify/', EmailConfirmationSentView.as_view(template_name='users/verify_email.html'), name='verify'),
+    path('email_confirm/<uidb64>/<token>/', UserConfirmEmail.as_view(), name='email_confirm'),
+
 ]
