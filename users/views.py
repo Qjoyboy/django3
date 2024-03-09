@@ -1,7 +1,7 @@
 import random
 import django.core.mail.backends.smtp
 from django.conf import settings
-from django.contrib.auth import login, get_user_model
+from django.contrib.auth import login, get_user_model, authenticate
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView
@@ -50,15 +50,8 @@ class RegisterView(CreateView):
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': token
         }
-        message = render_to_string(
-            'users/email_confirm.html',
-            context=context
-        )
-        email = EmailMessage(
-            'Verify_email',
-            message,
-            to=[user.email],
-        )
+        message = render_to_string('users/email_confirm.html', context=context)
+        email = EmailMessage('Verify_email', message, to=[user.email])
         try:
             email.send()
         except Exception as e:
@@ -71,8 +64,9 @@ class UserConfirmEmail(View):
         user = self.get_user(uidb64)
         if user is not None and token_generator.check_token(user, token):
             user.is_active = True
-            login(self.request, user)
-            return redirect('catalog:login')
+            user.save()
+            login(request, user)
+            return redirect('users:login')
         return redirect('catalog:home')
 
 
@@ -86,17 +80,6 @@ class UserConfirmEmail(View):
         return user
 
 
-
-# class UserConfirmEmail(View):
-#     def get_object(self, request, uidb64, token):
-#         uid = urlsafe_base64_decode(uidb64)
-#         user = User.objects.get(pk=uid)
-#         if user is not None and token_generator.check_token(user,token):
-#             user.is_active = True
-#             user.save()
-#             login(request, user)
-#             return redirect('users:activated_mail')
-
 class EmailConfirmationSentView(TemplateView):
     template_name = 'users/verify'
 
@@ -104,15 +87,6 @@ class EmailConfirmationSentView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Письмо активации отправлено'
         return context
-
-
-# class EmailConfirmedView(TemplateView):
-#     template_name = 'users/activated_mail'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Ваша почта активирована'
-#         return context
 
 
 class ProfileView(UpdateView):
